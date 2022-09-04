@@ -4,6 +4,9 @@ Derive dataset for business classification.
 We'll convert this raw text data for each business into a "dummified",
 bag-of-words style design matrix.
 
+Original dataset from:
+    https://www.kaggle.com/datasets/charanpuvvala/company-classification
+
 """
 
 import pandas as pd
