@@ -25,7 +25,7 @@ single_combined_text_column = (
 dummifier = CountVectorizer(
     min_df=0.0001,
     max_df=0.4,
-    max_features=1500,
+    max_features=1000,
     binary=True,
     token_pattern=r"(?u)\b[a-zA-Z][a-zA-Z]+\b"
 )
