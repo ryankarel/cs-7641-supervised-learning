@@ -30,6 +30,7 @@ dummifier = CountVectorizer(
     max_df=0.4,
     max_features=1000,
     binary=True,
+    stop_words='english',
     token_pattern=r"(?u)\b[a-zA-Z][a-zA-Z]+\b"
 )
 X = dummifier.fit_transform(single_combined_text_column)
