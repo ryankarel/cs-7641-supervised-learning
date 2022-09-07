@@ -27,7 +27,7 @@ single_combined_text_column = (
 
 dummifier = CountVectorizer(
     min_df=0.0001,
-    max_df=0.4,
+    max_df=0.7,
     max_features=1000,
     binary=True,
     stop_words='english',
