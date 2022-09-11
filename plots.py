@@ -23,3 +23,23 @@ def plot_validation_curve(all_curves_output, model_type, param_name):
 def plot_learning_curve(all_curves_output, model_type):
     learn_curve = all_curves_output['learning_curves']
     learn_data = pd.DataFrame(learn_curve)
+    training_set_proportion_plot = learn_data.plot(
+        x='train_sizes_abs',
+        y=['train_scores', 'valid_scores'],
+        xlabel='# Training Records',
+        ylabel=y_label,
+        title=f"Learning Curve for {model_type}"
+    )
+    return training_set_proportion_plot
+    
+def plot_time_curve(all_curves_output, model_type):
+    learn_curve = all_curves_output['learning_curves']
+    learn_data = pd.DataFrame(learn_curve)
+    time_plot = learn_data.plot(
+        x='train_sizes_abs',
+        y=['fit_times', 'score_times'],
+        xlabel='# Training Records',
+        ylabel='Time required (s)',
+        title=f"Timing of fitting and scoring for {model_type}"
+    )
+    return time_plot
