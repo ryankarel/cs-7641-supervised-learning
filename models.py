@@ -15,7 +15,7 @@ models = {
     'Decision Tree': DecisionTreeClassifier,
     'Neural Network': MLPClassifier,
     'Boosting': GradientBoostingClassifier,
-    'Support Vector Machine': LinearSVC,
+    'SVM': LinearSVC,
     'k-Nearest Neighbors': KNeighborsClassifier
 }
 
@@ -24,7 +24,7 @@ iteration_parameters = {
     'Decision Tree': 'max_depth',
     'Neural Network': 'max_iter',
     'Boosting': 'n_estimators',
-    'Support Vector Machine': 'max_iter',
+    'SVM': 'max_iter',
     'k-Nearest Neighbors': 'n_neighbors'
 }
 
@@ -36,7 +36,33 @@ hyper_options = {
         'criterion': 'entropy',
         'max_depth': [2 ** (1 + x) for x in range(5)],
         'random_state': random_state,
-        'ccp_alpha': [0] + [2 ** x for x in range(-6, 2)]
+        'ccp_alpha': [0] + [2 ** x for x in range(-6, 3, 2)]
+    },
+    'Neural Network': {
+        'alpha': [0] + [2 ** x for x in range(-6, 3, 2)],
+        'activation': 'logistic',
+        'random_state': random_state,
+        'hidden_layer_sizes': [(50, 50), (100, 100), (100,) (50,) (50, 10)]
+    },
+    'Boosting': {
+        'loss': "exponential",
+        'learning_rate': 0.03,
+        'n_estimators': range(30, 150, 15),
+        'random_state': random_state,
+        'ccp_alpha': [0] + [2 ** x for x in range(-6, 3, 2)]
+    },
+    'SVM': {
+        'penalty': ['l1', 'l2'],
+        'C': [0.01, 0.1, 0.5, 1.0, 1.5, 2.0, 5.0],
+        'random_state': random_state,
+        'dual': False
+    },
+    'k-Nearest Neighbors': {
+        'n_neighbors': range(1, 11, 2),
+        'weights': ['uniform', 'distance'],
+        'p': [1, 2],
+        # 'random_state': random_state, # R.S. unnecessary, here
+        'algorithm': 'auto'
     }
 }
 
