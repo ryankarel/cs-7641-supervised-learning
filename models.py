@@ -42,7 +42,7 @@ hyper_options = {
         'alpha': [0] + [2 ** x for x in range(-6, 3, 2)],
         'activation': 'logistic',
         'random_state': random_state,
-        'hidden_layer_sizes': [(50, 50), (100, 100), (100,) (50,) (50, 10)]
+        'hidden_layer_sizes': [(50, 50), (100, 100), (100,), (50,), (50, 10)]
     },
     'Boosting': {
         'loss': "exponential",
