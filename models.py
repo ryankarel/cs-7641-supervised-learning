@@ -58,7 +58,7 @@ hyper_options = {
         'dual': False
     },
     'k-Nearest Neighbors': {
-        'n_neighbors': range(1, 11, 2),
+        'n_neighbors': list(range(1, 11, 2)),
         'weights': ['uniform', 'distance'],
         'p': [1, 2],
         # 'random_state': random_state, # R.S. unnecessary, here
