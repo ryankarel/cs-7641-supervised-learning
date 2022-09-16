@@ -7,7 +7,6 @@ import pandas as pd
 from models import all_curves
 from models import scoring as y_label
 
-# output = all_curves('Decision Tree', X, Y)
 
 def plot_validation_curve(all_curves_output, model_type, param_name):
     val_curve = all_curves_output['validation_curves'][param_name]
