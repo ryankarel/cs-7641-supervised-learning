@@ -29,14 +29,14 @@ iteration_parameters = {
 }
 
 random_state = 23523
-scoring = 'roc_auc'
+scoring = 'roc_auc_ovo'
 
 hyper_options = {
     'Decision Tree': {
         'criterion': 'entropy',
         'max_depth': [2 ** (1 + x) for x in range(5)],
         'random_state': random_state,
-        'ccp_alpha': [0] + [2 ** x for x in range(-6, 3, 2)]
+        'ccp_alpha': [0] + [2 ** x for x in range(-6, 0, 2)]
     },
     'Neural Network': {
         'alpha': [0] + [2 ** x for x in range(-6, 3, 2)],
