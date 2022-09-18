@@ -5,7 +5,7 @@ from sklearn.model_selection import learning_curve, validation_curve, Stratified
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.svm import LinearSVC
+from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
 
 import numpy as np
@@ -16,7 +16,7 @@ models = {
     'Decision Tree': DecisionTreeClassifier,
     'Neural Network': MLPClassifier,
     'Boosting': GradientBoostingClassifier,
-    'SVM': LinearSVC,
+    'SVM': SVC,
     'k-Nearest Neighbors': KNeighborsClassifier
 }
 
@@ -42,6 +42,7 @@ hyper_options = {
     'Neural Network': {
         'alpha': [0] + [2 ** x for x in range(-6, 3, 2)],
         'activation': 'logistic',
+        'max_iter': 300,
         'random_state': random_state,
         'hidden_layer_sizes': [(50, 50), (100, 100), (100,), (50,), (50, 10)]
     },
@@ -53,10 +54,11 @@ hyper_options = {
         'ccp_alpha': [0] + [2 ** x for x in range(-6, 3, 2)]
     },
     'SVM': {
-        'penalty': ['l1', 'l2'],
+        'kernel': ['linear', 'poly', 'rbf'],
+        'probability': True,
+        'max_iter': 300,
         'C': [0.01, 0.1, 0.5, 1.0, 1.5, 2.0, 5.0],
-        'random_state': random_state,
-        'dual': False
+        'random_state': random_state
     },
     'k-Nearest Neighbors': {
         'n_neighbors': list(range(1, 11, 2)),
