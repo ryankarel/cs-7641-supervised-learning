@@ -40,7 +40,9 @@ X = (
     .sparse
     .from_spmatrix(X, columns=dummifier.get_feature_names_out())
 )
-Y = pd.get_dummies(raw_data['Category'])
+
+
+Y = raw_data['Category']
 
 X.to_pickle('business-classification/X.pkl')
 Y.to_pickle('business-classification/Y.pkl')

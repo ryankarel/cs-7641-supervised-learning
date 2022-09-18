@@ -18,7 +18,7 @@ raw_white_data = pd.read_csv("winequality-white.csv", sep=";").assign(red=0)
 combined = pd.concat([raw_red_data, raw_white_data])
 
 X = combined.drop('quality', axis=1)
-Y = pd.get_dummies(pd.qcut(combined['quality'], 3, labels=['Low', 'Medium', 'High']))
+Y = pd.qcut(combined['quality'], 3, labels=['Low', 'Medium', 'High'])
 
 X.to_pickle('wine/X.pkl')
 Y.to_pickle('wine/Y.pkl')

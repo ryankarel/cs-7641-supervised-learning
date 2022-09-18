@@ -1,15 +1,16 @@
 """Build automations for ML training and presentation."""
 
 
-from sklearn.model_selection import learning_curve, validation_curve
+from sklearn.model_selection import learning_curve, validation_curve, StratifiedKFold
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.svm import LinearSVC
 from sklearn.neighbors import KNeighborsClassifier
 
-import pandas as pd
 import numpy as np
+
+CV = 3
 
 models = {
     'Decision Tree': DecisionTreeClassifier,
@@ -102,7 +103,8 @@ def my_validation_curve(model_type, X, Y):
             y=Y,
             param_name=key,
             param_range=variable_hp[key],
-            scoring=scoring
+            scoring=scoring,
+            cv=CV
         )
         val_curves[key] = {
             'values': variable_hp[key],
@@ -129,8 +131,10 @@ def my_learning_curve(model_type, X, Y, all_hypers):
         X=X,
         y=Y,
         scoring=scoring,
+        cv=CV,
         train_sizes=np.linspace(0.1, 1.0, 10),
         random_state=random_state,
+        shuffle=True,
         return_times=True
     )
     output = {
