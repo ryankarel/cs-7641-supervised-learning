@@ -46,9 +46,9 @@ hyper_options = {
         'hidden_layer_sizes': [(50, 50), (100, 100), (100,), (50,), (50, 10)]
     },
     'Boosting': {
-        'loss': "exponential",
+        'loss': "log_loss",
         'learning_rate': 0.03,
-        'n_estimators': range(30, 150, 15),
+        'n_estimators': list(range(30, 150, 15)),
         'random_state': random_state,
         'ccp_alpha': [0] + [2 ** x for x in range(-6, 3, 2)]
     },
@@ -102,6 +102,7 @@ def my_validation_curve(model_type, X, Y):
             X=X,
             y=Y,
             param_name=key,
+            error_score='raise',
             param_range=variable_hp[key],
             scoring=scoring,
             cv=CV

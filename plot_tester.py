@@ -18,13 +18,18 @@ from models import get_variable_hypers
 X = pd.read_pickle('data/wine/X.pkl')
 Y = pd.read_pickle('data/wine/Y.pkl')
 
-X = pd.read_pickle('data/business-classification/X.pkl')
-Y = pd.read_pickle('data/business-classification/Y.pkl')
+# X = pd.read_pickle('data/business-classification/X.pkl')
+# Y = pd.read_pickle('data/business-classification/Y.pkl')
+
 
 
 model_type = 'Decision Tree'
+model_type = 'Neural Network'
+model_type = 'Boosting'
+model_type = 'SVM'
+model_type = 'k-Nearest Neighbors'
 
-curves = all_curves(model_type, X.iloc[:, :50], Y)
+curves = all_curves(model_type, X, Y)
 
 for variable_hyper in get_variable_hypers(model_type):
     plot_validation_curve(

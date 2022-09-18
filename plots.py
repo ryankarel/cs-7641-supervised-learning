@@ -1,10 +1,7 @@
 """Plot learning and validation curves."""
 
-import seaborn as sns
-import matplotlib.pyplot as plt
 import pandas as pd
 
-from models import all_curves
 from models import scoring as y_label
 
 
