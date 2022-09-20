@@ -48,16 +48,17 @@ hyper_options = {
     },
     'Boosting': {
         'loss': "log_loss",
-        'learning_rate': 0.03,
-        'n_estimators': list(range(30, 150, 15)),
+        'learning_rate': 0.02,
+        'n_estimators': list(range(45, 225, 45)),
         'random_state': random_state,
-        'ccp_alpha': [0] + [2 ** x for x in range(-6, 3, 2)]
+        'max_features': 'log2',
+        'ccp_alpha': [0] + [2 ** x for x in range(-6, 0, 2)]
     },
     'SVM': {
         'kernel': ['linear', 'poly', 'rbf'],
         'probability': True,
-        'max_iter': 100,
-        'C': [0.01, 0.1, 0.5, 1.0, 1.5, 2.0, 5.0],
+        'max_iter': 25,
+        'C': [0.01, 0.1, 0.5, 1.0, 5.0, 10.0],
         'random_state': random_state,
         'gamma': 'auto'
     },
@@ -87,18 +88,18 @@ def get_variable_hypers(model_type):
         if isinstance(hp_options[key], list)
     }
     return variable_hp
-    
+
 def my_validation_curve(model_type, X, Y):
     model = models[model_type]
-    
+
     # will use these when constructing the model initially
     fixed_hp = get_fixed_hypers(model_type)
-    
+
     # we'll pass these in to range over for tuning
     variable_hp = get_variable_hypers(model_type)
-    
+
     val_curves = {}
-    
+
     for key in variable_hp:
         train_scores, valid_scores = validation_curve(
             estimator=model(**fixed_hp),
@@ -115,7 +116,7 @@ def my_validation_curve(model_type, X, Y):
             'train_scores': train_scores.mean(axis=1),
             'valid_scores': valid_scores.mean(axis=1)
         }
-        
+
     return val_curves
 
 def get_best_hypers_from_val_curves(val_curves):
@@ -127,7 +128,7 @@ def get_best_hypers_from_val_curves(val_curves):
         best_value = hp_values[val_scores.argmax()]
         best_values[key] = best_value
     return best_values
-        
+
 def my_learning_curve(model_type, X, Y, all_hypers):
     model = models[model_type]
     train_sizes_abs, train_scores, valid_scores, fit_times, score_times = learning_curve(
@@ -149,7 +150,7 @@ def my_learning_curve(model_type, X, Y, all_hypers):
         'score_times': score_times.mean(axis=1)
     }
     return output
-    
+
 def all_curves(model_type, X, Y):
     val_curves = my_validation_curve(model_type, X, Y)
     best_variable = get_best_hypers_from_val_curves(val_curves)
@@ -161,4 +162,3 @@ def all_curves(model_type, X, Y):
         'learning_curves': learn_curves
     }
     return output
-    
