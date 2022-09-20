@@ -42,7 +42,7 @@ hyper_options = {
     'Neural Network': {
         'alpha': [0] + [2 ** x for x in range(-6, 3, 2)],
         'activation': 'logistic',
-        'max_iter': 300,
+        'max_iter': 100,
         'random_state': random_state,
         'hidden_layer_sizes': [(50, 50), (100, 100), (100,), (50,), (50, 10)]
     },
@@ -56,9 +56,10 @@ hyper_options = {
     'SVM': {
         'kernel': ['linear', 'poly', 'rbf'],
         'probability': True,
-        'max_iter': 300,
+        'max_iter': 100,
         'C': [0.01, 0.1, 0.5, 1.0, 1.5, 2.0, 5.0],
-        'random_state': random_state
+        'random_state': random_state,
+        'gamma': 'auto'
     },
     'k-Nearest Neighbors': {
         'n_neighbors': list(range(1, 11, 2)),
