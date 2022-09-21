@@ -56,11 +56,11 @@ DPI = 1200
 
 
 model_types = [
+    'k-Nearest Neighbors',
     'Decision Tree',
     'Neural Network',
-    'Boosting',
     'SVM',
-    'k-Nearest Neighbors'
+    'Boosting'
 ]
 
 curve_repo = {}
@@ -103,4 +103,6 @@ for key in training_datasets:
         ).get_figure()
         time_curve.savefig(f'{dirname}/{model_type}/time_curve.png', dpi=DPI)
 
-pickle.dump(curve_repo, 'curves.pkl')
+import json
+with open('curves.pkl', 'w') as fp:
+    json.dump(curve_repo, fp)
