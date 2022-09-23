@@ -137,3 +137,22 @@ for key in ['Wine', 'BusClass']:
         
         holdout_performance[key][model_type] = score
         
+# --- iterative plot
+iterative_plot = {}
+
+for key in ['Wine', 'BusClass']:
+
+    X_train, Y_train = training_datasets[key]
+
+    model_type = "Neural Network"
+    curves = curve_repo[key][model_type]
+    best_variable = get_best_hypers_from_val_curves(curves['validation_curves'])
+    selected_hypers = get_fixed_hypers(model_type)
+    selected_hypers.update(best_variable)
+    model = models[model_type](**selected_hypers)
+    model.fit(X_train, Y_train)
+    
+    iterative_plot[key] = model.loss_curve_
+    
+
+        
