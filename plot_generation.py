@@ -9,6 +9,7 @@ import pandas as pd
 import numpy as np
 import sklearn
 import sklearn.model_selection
+from sklearn.metrics import roc_auc_score
 import seaborn as sns
 
 from plots import plot_validation_curve
@@ -18,6 +19,9 @@ from plots import plot_time_curve
 from models import all_curves
 from models import get_variable_hypers
 from models import random_state
+from models import get_best_hypers_from_val_curves
+from models import get_fixed_hypers
+from models import models
 
 from pathlib import Path
 
@@ -48,6 +52,11 @@ X_wine_train, X_wine_test, Y_wine_train, Y_wine_test = sklearn.model_selection.t
 training_datasets = {
     'BusClass': (X_bus_train, Y_bus_train),
     'Wine': (X_wine_train, Y_wine_train)
+}
+
+holdout_datasets = {
+    'BusClass': (X_bus_test, Y_bus_test),
+    'Wine': (X_wine_test, Y_wine_test)
 }
 
 # get plots
@@ -104,3 +113,27 @@ for key in training_datasets:
         time_curve.savefig(f'{dirname}/{model_type}/time_curve.png', dpi=DPI)
 
 print(curve_repo)
+
+# --- holdout test
+
+holdout_performance = {}
+
+for key in ['Wine', 'BusClass']:
+
+    X_train, Y_train = training_datasets[key]
+    X_test, Y_test = holdout_datasets[key]
+    holdout_performance[key] = {}
+
+    for model_type in model_types:
+        curves = curve_repo[key][model_type]
+        best_variable = get_best_hypers_from_val_curves(curves['validation_curves'])
+        selected_hypers = get_fixed_hypers(model_type)
+        selected_hypers.update(best_variable)
+        model = models[model_type](**selected_hypers)
+        model.fit(X_train, Y_train)
+        Y_pred = model.predict(X_test)
+        score = roc_auc_score(Y_test, Y_pred, multi_class="ovo")
+        print(f'{key} - {model_type} score: {score:.3f}')
+        
+        holdout_performance[key][model_type] = score
+        
