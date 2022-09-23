@@ -48,11 +48,11 @@ hyper_options = {
     },
     'Boosting': {
         'loss': "log_loss",
-        'learning_rate': 0.02,
-        'n_estimators': list(range(45, 225, 45)),
+        'learning_rate': 0.05,
+        'n_estimators': [50, 100, 500, 1000, 3000, 7000, 10000],
         'random_state': random_state,
         'max_features': 'log2',
-        'ccp_alpha': [0] + [2 ** x for x in range(-6, 0, 2)]
+        'ccp_alpha': [0] + [2 ** x for x in range(-12, -6, 2)]
     },
     'SVM': {
         'kernel': ['linear', 'poly', 'rbf'],
@@ -63,9 +63,9 @@ hyper_options = {
         'gamma': 'auto'
     },
     'k-Nearest Neighbors': {
-        'n_neighbors': list(range(1, 11, 2)),
+        'n_neighbors': [1, 3, 5, 9, 15, 21],
         'weights': ['uniform', 'distance'],
-        'p': [1, 2],
+        'p': 1,
         # 'random_state': random_state, # R.S. unnecessary, here
         'algorithm': 'auto'
     }
