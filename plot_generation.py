@@ -131,11 +131,22 @@ for key in ['Wine', 'BusClass']:
         selected_hypers.update(best_variable)
         model = models[model_type](**selected_hypers)
         model.fit(X_train, Y_train)
-        Y_pred = model.predict(X_test)
-        score = roc_auc_score(Y_test, Y_pred, multi_class="ovo")
+        Y_pred = model.predict_proba(X_test)
+        score = roc_auc_score(
+            Y_test,
+            Y_pred,
+            multi_class="ovo"
+        )
         print(f'{key} - {model_type} score: {score:.3f}')
         
         holdout_performance[key][model_type] = score
+
+print(
+      pd.DataFrame(holdout_performance)
+      .to_latex(float_format="{:.1%}".format,
+                caption="Scores reported in OvO AUC",
+                bold_rows=True)
+)
         
 # --- iterative plot
 iterative_plot = {}
