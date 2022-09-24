@@ -5,11 +5,13 @@
 
 \usepackage{booktabs}
 
-\addbibresource{references.bib}
-
 \author{N. Ryan Karel}
 \email{nkarel3@gatech.edu}
 \title{CS 7641 - Supervised Learning}
+
+\usepackage{comment}
+\usepackage{biblatex}
+\addbibresource{references.bib}
 
 \begin{document}
 %\lsstyle
@@ -20,12 +22,12 @@
 There are two datasets that we shall analyze today. One pertains to business classification data and the other to wine quality. Both present multi-class labels that we will attempt to predict. Let us examine each dataset in turn.
 
 \subsection{Business Classification}
-The first dataset is a wide dataset in that the design matrix, $X$, has a large number of features (a thousand, to be precise), each of which are fairly meaningless on their own. The original data came from a Kaggle dataset where each record was a business with plaintext scraped from the company's website, along with a label showing one of thirteen possible business classifications, e.g. "Financials", "Healthcare", "Information Technology", and so on. I derived a more simple dataset that basically one-hot-encoded 1000 words from these natural language columns, while also one-hot-encoding the labels to produce a matrix target, $Y$. 
+The first dataset is a wide dataset in that the design matrix, $X$, has a large number of features (a thousand, to be precise), each of which are fairly meaningless on their own. The original data came from a Kaggle dataset where each record was a business with plaintext scraped from the company's website, along with a label showing one of thirteen possible business classifications, e.g. "Financials", "Healthcare", "Information Technology", and so on (\cite{kaggle}). I derived a more simple dataset that basically one-hot-encoded 1000 words from these natural language columns, while also one-hot-encoding the labels to produce a matrix target, $Y$. 
 
 I find this data interesting because of the abundance of natural language data, though I do not have much experience analyzing it. I figured this "bag-of-words" style dataset could be a good exercise in taking lots of data points which by themselves are not very predictive, but could be when combined with the whole of the features. I expect that even after tuning the models to optimize performance on holdout data, there will still be a decent bit of signal that will not be captured by the model.
 
 \subsection{Wine Quality}
-The next dataset came from the UCI ML Repository and did not require as much manipulation to prepare for analysis. The original wine quality data was entirely composed of numeric columns, though the data was originally split into two datasets: red and white wines. I combined the two and included a new binary column simply called `red` that provides a mapping to the original dataset. I converted the target data into a multi-classification problem where the numeric scores were converted into "Low", "Medium", and "High" categories. This was performed by splitting at the 33rd and 67th percentiles so that the classes would be roughly balanced.
+The next dataset came from the UCI ML Repository and did not require as much manipulation to prepare for analysis (\cite{uci}). The original wine quality data was entirely composed of numeric columns, though the data was originally split into two datasets: red and white wines. I combined the two and included a new binary column simply called `red` that provides a mapping to the original dataset. I converted the target data into a multi-classification problem where the numeric scores were converted into "Low", "Medium", and "High" categories. This was performed by splitting at the 33rd and 67th percentiles so that the classes would be roughly balanced.
 
 This dataset offers a contrast with the first one in that individual columns have a great deal more predictive value than in the business classification data. To continue the contrast, I expect there to be substantially more signal captured by the wine quality models than the business classifiers, though I do not believe this will be trivial task. Furthermore, the target class' frequencies was intentionally made more balanced in the wine dataset than in the business classification dataset.
 
@@ -39,8 +41,7 @@ This particular version of the AUC score is called the One-vs-One AUC (OvO AUC) 
 \subsection{Train-Test Splits}
 With each dataset defined, we split the design matrices and targets into training and test datasets, placing 70\% into training the remaining 30\% into test. Going forward, the substance of our analysis will be in the context of 3-fold cross-validation on the training set. 
 
-For our analysis here, we shall examine each machine learning algorithm in turn and evaluate its performance on each of the two datasets described above. Note that for each of the learning algorithms, we are using Scikit-Learn implementations \citep{sklearn_api}. Furthermore, note that for each algorithm, we selected a few fixed hyperparameter values and then selected two hyperparameters to tune using validation curves. This process is completed independently for each hyperparameter (on each dataset). With the optimal values for hyperparameters learned from our validation curves, we then begin drawing learning curves for the resulting model. Let us now examine each algorithm in turn.
-
+For our analysis here, we shall examine each machine learning algorithm in turn and evaluate its performance on each of the two datasets described above. Note that for each of the learning algorithms, we are using Scikit-Learn implementations (\cite{sklearn_api}). Furthermore, note that for each algorithm, we selected a few fixed hyperparameter values and then selected two hyperparameters to tune using validation curves. This process is completed independently for each hyperparameter (on each dataset). With the optimal values for hyperparameters learned from our validation curves, we then begin drawing learning curves for the resulting model. Let us now examine each algorithm in turn.
 
 \subsection{Decision Tree}
 
@@ -78,6 +79,7 @@ The neural network performed well on the business classification task. Its scori
 
 \includegraphics[width=3.4in]{Figures/BusClass-0920/NN/val_curve_0.png}
 \includegraphics[width=3.4in]{Figures/Wine-0921/NN/val_curve_0.png}
+
 \includegraphics[width=3.4in]{Figures/BusClass-0920/NN/val_curve_1.png}
 \includegraphics[width=3.4in]{Figures/Wine-0921/NN/val_curve_1.png}
 
@@ -107,6 +109,7 @@ True to the claims in the lecture videos, the boosting technique seems to be hig
 
 \includegraphics[width=3.4in]{Figures/BusClass-0920/GBM/val_curve_0.png}
 \includegraphics[width=3.4in]{Figures/Wine-0921/GBM/val_curve_0.png}
+
 \includegraphics[width=3.4in]{Figures/BusClass-0920/GBM/val_curve_1.png}
 \includegraphics[width=3.4in]{Figures/Wine-0921/GBM/val_curve_1.png}
 
@@ -134,6 +137,7 @@ In terms of regularization, less was better. The C hyperparameter is inversely p
 
 \includegraphics[width=3.4in]{Figures/BusClass-0920/SVM/val_curve_0.png}
 \includegraphics[width=3.4in]{Figures/Wine-0921/SVM/val_curve_0.png}
+
 \includegraphics[width=3.4in]{Figures/BusClass-0920/SVM/val_curve_1.png}
 \includegraphics[width=3.4in]{Figures/Wine-0921/SVM/val_curve_1.png}
 
@@ -159,6 +163,7 @@ When it comes to selecting the right amount of neighbors, we see a similar contr
 
 \includegraphics[width=3.4in]{Figures/BusClass-0920/KNN/val_curve_0.png}
 \includegraphics[width=3.4in]{Figures/Wine-0921/KNN/val_curve_0.png}
+
 \includegraphics[width=3.4in]{Figures/BusClass-0920/KNN/val_curve_1.png}
 \includegraphics[width=3.4in]{Figures/Wine-0921/KNN/val_curve_1.png}
 
@@ -198,7 +203,7 @@ Using our validation curves, we have learned the optimal model tunings (at least
 \end{table}
 
 \section{References}
-\printbibliography[heading=none]
+\printbibliography
 
 
 \end{document}
