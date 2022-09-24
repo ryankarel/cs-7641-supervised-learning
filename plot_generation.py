@@ -144,7 +144,7 @@ for key in ['Wine', 'BusClass']:
 print(
       pd.DataFrame(holdout_performance)
       .to_latex(float_format="{:.1%}".format,
-                caption="Scores reported in OvO AUC",
+                caption="Holdout OvO AUC Scores",
                 bold_rows=True)
 )
         
@@ -165,5 +165,17 @@ for key in ['Wine', 'BusClass']:
     
     iterative_plot[key] = model.loss_curve_
     
+pd.Series(iterative_plot['BusClass']).plot(
+    xlabel='Iterations',
+    ylabel="Loss",
+    title=f"Iterative Curve for Neural Network - BusClass"
+).get_figure().savefig(f'bus_class_iterative_curve.png', dpi=DPI)
+
+
+pd.Series(iterative_plot['Wine']).plot(
+    xlabel='Iterations',
+    ylabel="Loss",
+    title=f"Iterative Curve for Neural Network - Wine"
+).get_figure().savefig(f'wine_iterative_curve.png', dpi=DPI)
 
         

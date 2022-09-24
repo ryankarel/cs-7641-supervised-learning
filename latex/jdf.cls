@@ -30,7 +30,7 @@
 	\RequirePackage[
 		\papersize,
 		top=0.5in,
-		bottom=1.0in, 
+		bottom=0.8in, 
 		left=0.5in, 
 		right=0.5in,
 		footskip=0.5in, % Space from the bottom margin to the baseline of the footer
